@@ -4,6 +4,7 @@ using UnityEngine;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using System;
+using UnityEngine.SceneManagement;
 
 public class PlayServices : MonoBehaviour
 {
@@ -18,18 +19,52 @@ public class PlayServices : MonoBehaviour
             PlayGamesPlatform.InitializeInstance(config);
             PlayGamesPlatform.DebugLogEnabled = true;
             PlayGamesPlatform.Activate();
-            Social.localUser.Authenticate((bool success) => { });
+            Social.localUser.Authenticate((bool success) => { 
+                if(success)
+                {
+                    SceneManager.LoadScene("LeaderboardUI");
+                }
+            });
         }
         catch (Exception e)
         {
             Debug.Log(e);
         }
     }
-    public void AddScoreToLeaderBoard()
+    public static void AddScoreToLeaderBoard(string hs)
     {
-        if (Social.localUser.authenticated)
+        PlayerPrefs.SetInt("currentScore", int.Parse(hs));
+        if (PlayerPrefs.GetInt("currentScore", 0) < PlayerPrefs.GetInt("HighScore", 0))
         {
-            //Social.ReportScore(playerScore, "", success => { });
+            return;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("HighScore", PlayerPrefs.GetInt("currentScore", 0));
+        }
+        Social.ReportScore(PlayerPrefs.GetInt("HighScore", 1), GPGSIds.leaderboard_leaderboard, (bool success) =>
+        {
+            print(PlayerPrefs.GetInt("HighScore", 1) + " added to leaderboard");
+        });
+    }
+    public void OpenLeaderBoard()
+    {
+        PlayGamesPlatform.Instance.ShowLeaderboardUI(GPGSIds.leaderboard_leaderboard);
+    }
+
+    public static void unlockAchievement()
+    {
+        if(Social.localUser.authenticated)
+        {
+            Social.ReportProgress(GPGSIds.achievement_achievement, 100f, success => { });
+        }
+    }
+
+    public static void showAchievement()
+    {
+        if(Social.localUser.authenticated)
+        {
+            Social.ShowAchievementsUI();
         }
     }
 

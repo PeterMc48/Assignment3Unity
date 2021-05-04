@@ -308,6 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 69387939}
   - component: {fileID: 69387940}
+  - component: {fileID: 69387941}
   m_Layer: 0
   m_Name: AdsObject
   m_TagString: Untagged
@@ -342,6 +343,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   surfacingId: bannerPlacement
+--- !u!114 &69387941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69387938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56707bd0fde25554bb3077ae9a78d7db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &138661320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,7 +1388,7 @@ MonoBehaviour:
     m_SelectedColor: {r: 0.06864965, g: 0.6415094, b: 0.04538981, a: 1}
     m_DisabledColor: {r: 0.015034946, g: 0, b: 0.8490566, a: 0.5019608}
     m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
+    m_FadeDuration: 0
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -1392,8 +1405,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 138661322}
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 577934019}
+        m_MethodName: OpenLeaderBoard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

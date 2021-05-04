@@ -63,7 +63,7 @@ public class MainMenu : MonoBehaviour
     }
     public void getReward()
     {
-        int number = 2;// Random.Range(1, 3);
+        int number = Random.Range(1, 3);
 
         if(number == 1)
         {

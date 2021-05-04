@@ -36,7 +36,7 @@ public class GameManger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        getAchievement(score);
     }
 
     public void Restart()
@@ -67,6 +67,18 @@ public class GameManger : MonoBehaviour
      
     }
 
+    public void getAchievement(int score)
+    {
+        switch (score)
+        {
+            case 10:
+                PlayServices.showAchievement();
+                break;
+            default:
+                break;
+        }
+    }
+
     private void resetScene()
     {
         score = 0;
@@ -82,6 +94,7 @@ public class GameManger : MonoBehaviour
     public void ScoreUp(){
         
         scoreText.text = score.ToString();
+        PlayServices.AddScoreToLeaderBoard(scoreText.text);
         score++;
     }
 
