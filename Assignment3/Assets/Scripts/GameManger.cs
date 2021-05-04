@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,15 +9,27 @@ public class GameManger : MonoBehaviour
     int score;
     public Text scoreText;
 
-    public Text highScore;
+    private BallController ball;
 
-    public GameObject mainMenu;
+    private PaddleController paddle;
+
+    public GameObject Menu;
+
+    private MainMenu menu;
+
+
+    
     private void Awake() {
         instance = this;
+
     }
     // Start is called before the first frame update
     void Start()
     {
+        
+        ball = FindObjectOfType<BallController>();
+        paddle = FindObjectOfType<PaddleController>();
+        menu = Menu.GetComponent<MainMenu>();
         
     }
 
@@ -28,21 +41,44 @@ public class GameManger : MonoBehaviour
 
     public void Restart()
     {
+        int number = UnityEngine.Random.Range(1, 3);
 
-        print("the score is " +score);
-        if(score > PlayerPrefs.GetInt("HighScore",0))
+        //print("the score is " +score);
+        if (score > PlayerPrefs.GetInt("HighScore",0))
         {
             PlayerPrefs.SetInt("HighScore", score);
-            highScore.text = score.ToString();  
             //print("the high score is "+highScore.text);
         }
         
-        SceneManager.LoadScene("Game");
-        //highScore.text = PlayerPrefs.GetInt("HighScore",0).ToString();
 
-        AdManager.instance.ShowIntersititialAd();
+        if (number == 1)
+        {
+            //unity ad
+            AdManager.instance.ShowIntersititialAd();
+
+        }
+        else
+        {
+            AdManager.instance.GameOver();
+        }
+        
+        resetScene();
+
+     
     }
-    
+
+    private void resetScene()
+    {
+        score = 0;
+        paddle.reset();
+        ball.reset();
+        Menu.SetActive(true);
+        menu.ActiveButtons();
+        menu.gameEnded();
+        scoreText.text = score.ToString();
+        scoreText.gameObject.SetActive(false);
+    }
+
     public void ScoreUp(){
         
         scoreText.text = score.ToString();
@@ -51,7 +87,8 @@ public class GameManger : MonoBehaviour
 
     public void gameStart()
     {
-        mainMenu.SetActive(false);
+        
         scoreText.gameObject.SetActive(true);
     }
+    
 }

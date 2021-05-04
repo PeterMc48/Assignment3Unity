@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class PaddleController : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 10f;
 
+    private MainMenu menu;
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();    
     }
@@ -17,17 +20,29 @@ public class PaddleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        transform.localScale = new Vector2(2.5f,.5f);
+        menu = FindObjectOfType<MainMenu>();
+        reset();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        gameStarted(menu.getGameStarted());
     }
 
-    private void FixedUpdate() {
-        touchMove();
+    public void gameStarted(bool started)
+    {
+        if (started)
+        {
+            touchMove();
+        }
+
+    }
+
+    private void FixedUpdate() 
+    {
+            
     }
 
     void touchMove()
@@ -51,4 +66,20 @@ public class PaddleController : MonoBehaviour
             rb.velocity = Vector2.zero;
         }
     }
+
+    internal void reset()
+    {
+        transform.position = new Vector2(0, -3.5f);
+        transform.localScale = new Vector2(2.5f, .5f);
+        rb.velocity = Vector2.zero;
+    }
+
+    internal void LargerPaddle()
+    {
+        transform.localScale = new Vector2(3.5f, .5f);
+    }
+
+  
+
+
 }

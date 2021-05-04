@@ -7,38 +7,30 @@ public class BallController : MonoBehaviour
     // Start is called before the first frame update
     Rigidbody2D rb;
 
+
     [SerializeField]
     private float bounceForce = 6f;
-
-    bool gameStarted;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();    
     }
     void Start()
     {
-      
+        reset();
+       
     }
 
     // Update is called once per frame
     void Update()
     {   
-        if(!gameStarted)
-        {
-            if(Input.touchCount>0)
-            {
-                Bounce();
-                gameStarted = true;
-                GameManger.instance.gameStart();
-            }
-        }
-        
 
         outOfBounds();
     }
 
+
     void Bounce()
     {
+        
         Vector2 randomDirection = new Vector2(Random.Range(-2,6),1);
 
         rb.AddForce(randomDirection * bounceForce,ForceMode2D.Impulse);
@@ -54,7 +46,22 @@ public class BallController : MonoBehaviour
         if(other.gameObject.tag == "Paddle")
         {
             GameManger.instance.ScoreUp();
+            rb.AddForce(rb.velocity.normalized * 5, ForceMode2D.Impulse);
         }
     }
-    
+
+    internal void reset()
+    {
+        transform.position = new Vector2(0, -2.78f);
+        rb.velocity = Vector3.zero;
+    }
+    public void gameStarted(bool started)
+    {
+        if (started)
+        {
+            Bounce();
+            GameManger.instance.gameStart();
+        }
+        
+    }
 }
